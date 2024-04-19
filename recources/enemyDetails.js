@@ -41,5 +41,14 @@ let enemyInterface = {
     _attacking: false,
 }
 module.exports = [
-    enemyInterface
+    enemyInterface,
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
+    {...enemyInterface, x: -10 + Math.random()*15, z: -10 + Math.random()*15},
 ]
