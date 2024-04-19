@@ -46,6 +46,56 @@ let treasurez = [
     rotateY: 0,
     currentPlace: "church",
     itemId: randNumString(), // should be string also in client
+    name: "hunterplate", // is also the image name
+    dn: "Hunter Plate",
+    itemCateg: "equipable",//equipable,crafting(for item looted),consum(/foods/buffs/potions)
+    itemType: "armor", // weapon/staff/spear/Pauldrons//armor/greaves || //food//potion//buff
+    weaponType: "armor",
+    equipAbilities: { 
+        dmg: 100, def: 100, magicDmg: 100, plusStr: 0, plusDex: 0, plusInt: 0,
+    }, //str(hp,dmg) // dex(def, spd) // int(magicDmg, mana)
+    // if you calc spd(1/10 = .1) mychar.spd += plusSpd/10// it should only be .1 to 1
+    consumeAbilities: { plusHp: 100, plusMp: 100, plusSp: 100, plusDmg: 10, plusSpd: 1, }, //for buffs foods potions
+    equiped: false,
+    soulFeed: 0,
+    isEnhanceAble: true, // only for equipable items
+    enhancedLevel: 0,
+    durability: { current: 100, max: 100},
+    price: 1000,
+    qnty: 1,
+    desc: "A very light armor can outrun any kind of danger",
+    rarity: "normal"
+},
+{
+    pos: {x:-5, y:0,z:-40},
+    rotateY: 0,
+    currentPlace: "wisemanVillage",
+    itemId: randNumString(), // should be string also in client
+    name: "leathermark", // is also the image name
+    dn: "Leather Marc",
+    itemCateg: "equipable",//equipable,crafting(for item looted),consum(/foods/buffs/potions)
+    itemType: "armor", // weapon/staff/spear/Pauldrons//armor/greaves || //food//potion//buff
+    weaponType: "armor",
+    equipAbilities: { 
+        dmg: 100, def: 100, magicDmg: 100, plusStr: 0, plusDex: 0, plusInt: 0,
+    }, //str(hp,dmg) // dex(def, spd) // int(magicDmg, mana)
+    // if you calc spd(1/10 = .1) mychar.spd += plusSpd/10// it should only be .1 to 1
+    consumeAbilities: { plusHp: 100, plusMp: 100, plusSp: 100, plusDmg: 10, plusSpd: 1, }, //for buffs foods potions
+    equiped: false,
+    soulFeed: 0,
+    isEnhanceAble: true, // only for equipable items
+    enhancedLevel: 0,
+    durability: { current: 100, max: 100},
+    price: 1000,
+    qnty: 1,
+    desc: "From ancient time gladiators call this leather marc for being light as leather and hard as marc",
+    rarity: "rare"
+},
+{
+    pos: {x:0, y:0,z:4},
+    rotateY: 0,
+    currentPlace: "church",
+    itemId: randNumString(), // should be string also in client
     name: "warriorblade", // is also the image name
     dn: "Warrior Blade",
     itemCateg: "equipable",//equipable,crafting(for item looted),consum(/foods/buffs/potions)
