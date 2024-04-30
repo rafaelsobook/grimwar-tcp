@@ -263,7 +263,6 @@ let treasurez = [
     desc: "This Cloak is light and useful for first time adventurers",
     rarity: "normal"
 },
-
 {
     pos: {x:5, y:0,z:-5},
     rotateY: 0,
@@ -315,14 +314,13 @@ const io = new Server(server, {
 
 io.on("connection", socket => {
     socket.on("join", data => {
-        log('someone joined')
         const isUser = uzers.some(user => user._id === data._id)
         if(isUser){
             io.emit("deliver-reload", data._id)
             log("user already in")
         }else{
             uzers.push({...data, socketId: socket.id})
-            log(`${data.name} has joined`)
+            log(`${data.name} has joined ins ${data.currentPlace}`)
             io.emit("userJoined", {charData: data, uzers, treasurez, tcpEnemies})
             uzers.forEach(uzr => log(`${uzr.name}, : ${uzr.currentPlace}`))            
         }
@@ -370,6 +368,10 @@ io.on("connection", socket => {
                 enem._targetId = data.targetId
                 enem._isMoving = true
                 enem._attacking = false
+                if(data.actionType === "idle"){
+                    enem._isMoving = false
+                    enem._attacking = true
+                }
             }
         })
         io.emit("enemy-chasing", data)
@@ -391,18 +393,22 @@ io.on("connection", socket => {
 
         if(!player) return log("will move player not found")
         player._isMoving = true
-        if(targetId) player._attacking = true
+        if(targetId) {
+            player._attacking = true
+            player._targetId = targetId
+        }
         player._dirTarg = dirTarg
         io.emit("on-move", data)
     })
     socket.on("emitStop", data => {
-        const {playerId, playerPos, dirTarg} = data
+        const {playerId, playerPos, dirTarg, targetId} = data
         const player = uzers.find(pl => pl._id === playerId)
         if(uzers.length){
             uzers.forEach(uzr => log(uzr._id))
         }
         if(!player) return log("will stop player not found")
         player._isMoving = false
+        player._targetId = targetId
         player.x = playerPos.x
         player.z = playerPos.z
         player._dirTarg = dirTarg
