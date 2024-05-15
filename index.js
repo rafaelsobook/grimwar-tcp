@@ -26,6 +26,7 @@ const io = new Server(server, {
     cors: { 
         origin:[
             'https://grimwraith.vercel.app',
+            'https://html-classic.itch.zone',
             'http://localhost:5173'
         ],
         methods: ["GET", "POST"]
