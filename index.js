@@ -27,6 +27,7 @@ const io = new Server(server, {
         origin:[
             'https://grimwraith.vercel.app',
             'https://html-classic.itch.zone',
+            'https://rafael29.itch.io/grim-wraith',
             'http://localhost:5173'
         ],
         methods: ["GET", "POST"]
