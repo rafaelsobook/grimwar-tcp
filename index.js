@@ -50,7 +50,7 @@ io.on("connection", socket => {
         }else{
             uzers.push({...data, socketId: socket.id})
             log(`${data.name} has joined ins ${data.currentPlace}`)
-            io.emit("userJoined", {charData: data, uzers, treasurez, tcpEnemies})
+            io.emit("userJoined", {charData: data, uzers, treasurez, tcpEnemies, worldMessage})
             uzers.forEach(uzr => log(`${uzr.name}, : ${uzr.currentPlace}`))            
         }
     })
@@ -158,6 +158,12 @@ io.on("connection", socket => {
             player.z = pos.z
         }        
         io.emit('player-revived', {_id: player._id})
+    })
+    // WORLD MESSAGE
+    socket.on('send-message', data =>{
+        worldMessage.push(data)
+        console.log(data)
+        io.emit("world-message", worldMessage)
     })
     // DISCONNECTIONS
     socket.on('will-die', data => {
