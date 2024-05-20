@@ -26,16 +26,17 @@ let enemyInterface = {
     stats: { 
         dmg: 1,
         magDmg: 1, 
-        accuracy: 1, //10
-        critical: 1.4, 
         spd: 3,
-        atkSpd: 2100
+        atkSpd: 2100,
+
+        accuracy: 1, //10 // accuracy >= hero.stats.accuracy
+        critical: 1.4, 
     },
     deathSound: "goblinDeathS",
     encounterSound: false,
     lvl: 2,
-    hp: 600,
-    maxHp: 600,
+    hp: 2000,
+    maxHp: 2000,
     expToGain: 100,
     x:3.6,
     z: -40,

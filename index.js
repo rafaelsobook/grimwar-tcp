@@ -142,6 +142,13 @@ io.on("connection", socket => {
         player._dirTarg = dirTarg
         io.emit("on-stop", data)
     })
+    // update hero stats
+    socket.on('update-stat', data => {
+        const player = uzers.find(user => user._id === data._id)
+        if(!player) return log("uzer died id not found. line.148")
+        player.stats = data.stats
+        io.emit('updated-herostat', data)
+    })
     // REVIVCAL
     socket.on("will-revive", data =>{
         const {_id,pos,currentPlace} = data
