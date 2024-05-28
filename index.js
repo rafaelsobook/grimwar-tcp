@@ -61,8 +61,12 @@ io.on("connection", socket => {
         player._attacking = true
         player._isMoving = false
         const enemyTarg = tcpEnemies.find(ene => ene._id === data.targetId)
-        if(!enemyTarg) return log("notffound enemy to be damaged")
-        enemyTarg.hp -= data.hasWeapon ? data.dmgDetails.weaponDmg : data.dmgDetails.physicalDmg
+        if(!enemyTarg) return log("not found enemy to be damaged ", data.targetId)
+        
+        if(!data.isMissed){
+            enemyTarg.hp -= data.hasWeapon ? data.dmgDetails.weaponDmg : data.dmgDetails.physicalDmg
+            if(enemyTarg.hp <= 0) tcpEnemies = tcpEnemies.filter(enemy => enemy._id !== data.targetId)
+        }
         player.x = data.pos.x
         player.z = data.pos.z
         io.emit("player-attacked", {...data, hp: enemyTarg.hp, maxHp: enemyTarg.maxHp})
@@ -76,6 +80,29 @@ io.on("connection", socket => {
         io.emit('equiped-item', data)
     })
     //enemy related
+    socket.on('enemyChangeTarget', data => {
+        tcpEnemies.forEach(enem => {
+            if(data._id === enem._id){
+                enem._targetId = data.newTargetId
+            }
+        })
+        io.emit("enemy-changedtarget", data)
+    })
+    socket.on("respawnEnemy", data => {
+        const {maxHp, name, respawnDetails} = data
+        console.log(`respawning enemy `, data)
+        setTimeout(() => {
+            tcpEnemies.push({...data,
+                _id: randNumString(),
+                hp: maxHp,
+                _isMoving: false,
+                _targetId: false,
+                _dirTarg: {x:0,z:0},
+                _attacking: false,
+            })
+            io.emit("enemy-respawned", tcpEnemies)
+        }, respawnDetails.respawnTime)
+    })
     socket.on("removeEnemy", enemyId => {
         tcpEnemies = tcpEnemies.filter(enemy => enemy._id !== enemyId)
         log(tcpEnemies)
@@ -90,6 +117,14 @@ io.on("connection", socket => {
             }
         })
         io.emit("enemy-attacked", data)
+    })
+    socket.on("registerPlayerAsEnemy", data => {
+        tcpEnemies.forEach(enem => {
+            if(data._id === enem._id){
+                enem._targetId = data.targetId
+            }
+        })
+        io.emit("registered-playerAsEnemy", tcpEnemies)
     })
     socket.on("enemyWillChase", data => {
         tcpEnemies.forEach(enem => {
@@ -115,6 +150,15 @@ io.on("connection", socket => {
         treasurez = treasurez.filter(tre => tre.itemId !== itemTreasureId)
         console.log("successfully opened treasure")
     })
+    socket.on('willAnimateEmoji', data => {
+        const player = uzers.find(pl => pl._id === data.playerId)
+        if(!player) return log("will move player not found")
+        if(player._dead) return console.log("is dead")
+        // if(player._attacking) return console.log("is attacking")
+        if(player._isMoving) return console.log("is moving")
+
+        io.emit("emoji-animated", data)
+    })
     // movements    
     socket.on("emitMove", data => {
         const {playerId, playerPos,targetId, dirTarg} = data
@@ -135,11 +179,12 @@ io.on("connection", socket => {
         const player = uzers.find(pl => pl._id === playerId)
 
         if(!player) return log("will stop player not found")
-        player._isMoving = false
+        player._isMoving = false        
         player._targetId = targetId
         player.x = playerPos.x
         player.z = playerPos.z
         player._dirTarg = dirTarg
+        if(!player._targetId) player._attacking = false
         io.emit("on-stop", data)
     })
     // update hero stats

@@ -17,6 +17,7 @@ let simpleCoreLoot = {
     desc: "core that can be found on almost any small monsters, can be useful for enhancing items",
     rarity: "normal"
 }
+
 let enemyInterface = {
     _id: `${randNumString()}`,
     maxDistance: 2.5,
@@ -35,8 +36,8 @@ let enemyInterface = {
     deathSound: "goblinDeathS",
     encounterSound: false,
     lvl: 2,
-    hp: 2000,
-    maxHp: 2000,
+    hp: 3000,
+    maxHp: 3000,
     expToGain: 100,
     x:3.6,
     z: -40,
@@ -53,7 +54,7 @@ let enemyInterface = {
     skills: [], 
     aptitude: ['light'],
     blessings: [],
-    currentPlace: "wisemanVillage",
+    currentPlace: "afterWarScene",
     status: [], // sickness //poisoned etc
     regens: {sp: 1, hp: 1, mana: 1},
     monsSoul: 2, // toReceive when killed
@@ -64,7 +65,11 @@ let enemyInterface = {
     _targetId: false,
     _dirTarg: {x:0,z:0},
     _attacking: false,
-    loots: [simpleCoreLoot]
+    loots: [simpleCoreLoot],
+    respawnDetails: {
+        willRespawn: true,
+        respawnTime: 30*1000,
+    }
 }
 module.exports = [
     enemyInterface,
@@ -90,6 +95,7 @@ module.exports = [
             spd: 3,
             atkSpd: 3000
         },
+        loots: []
     },
     {...enemyInterface,
         _id: `${randNumString()}`, 
@@ -112,6 +118,7 @@ module.exports = [
             spd: 3,
             atkSpd: 3000
         },
+        loots: []
     },
     {...enemyInterface,
         _id: `${randNumString()}`, 
@@ -134,13 +141,14 @@ module.exports = [
             spd: 3,
             atkSpd: 3000
         },
+        loots: []
     },
-    {...enemyInterface,
-        _id: `${randNumString()}`, 
-        x: -15, 
-        z: -15,
-        origPos: {x: -15, z: -15}
-    },
+    // {...enemyInterface,
+    //     _id: `${randNumString()}`, 
+    //     x: -15, 
+    //     z: -15,
+    //     origPos: {x: -15, z: -15}
+    // },
     {...enemyInterface,
         _id: `${randNumString()}`, 
         x: -30, 
@@ -179,10 +187,10 @@ module.exports = [
     // demonmonsters
     {...enemyInterface,
         _id: `${randNumString()}`, 
-        x: 5, 
-        z: -45,
+        x: -5, 
+        z: 45,
         bodyHeight: 3.4,
-        origPos: {x: 5, z: -45},
+        origPos: {x: -5, z: 45},
         currentPlace: "afterWarScene",
         actionType: "chasing",
         name: "lesserdemon",
@@ -190,39 +198,21 @@ module.exports = [
         modelStyle: "demonmonster",
         deathSound: "demonoidS",
         encounterSound: "demonoidS",
-        hp: 6000,
-        maxHp: 6000,
+        hp: 9000,
+        maxHp: 9000,
         stats: { 
-            dmg: 120,
+            dmg: 12,
             magDmg: 1, 
-            accuracy: 1, //10
+
+            accuracy: 3, //10
             critical: 1.4, 
             spd: 3,
             atkSpd: 3000
         },
-    },
-    {...enemyInterface,
-        _id: `${randNumString()}`, 
-        x: -15, 
-        z: -45,
-        bodyHeight: 3.4,
-        origPos: {x: -15, z: -45},
-        currentPlace: "afterWarScene",
-        actionType: "chasing",
-        name: "lesserdemon",
-        dn: "demon",
-        modelStyle: "demonmonster",
-        deathSound: "demonoidS",
-        encounterSound: "demonoidS",
-        hp: 6000,
-        maxHp: 6000,
-        stats: { 
-            dmg: 120,
-            magDmg: 1, 
-            accuracy: 1, //10
-            critical: 1.4, 
-            spd: 3,
-            atkSpd: 3000
-        },
+        loots: [],
+        respawnDetails: {
+            willRespawn: true,
+            respawnTime: 30*1000,
+        }
     },
 ]
