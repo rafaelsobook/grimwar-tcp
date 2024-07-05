@@ -8,12 +8,14 @@ const PORT = process.env.PORT || 3000
 
 const {randNumString,randNum} = require("./tools/tools.js")
 const enemyArray = require("./recources/enemyDetails.js")
-const treasuresData = require("./recources/treasures.js")
+const treasuresData = require("./recources/treasures.js");
+const enemyByKeyClass = require("./recources/enemyByKeyClass.js");
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 let worldMessage = []
 let uzers = []
+let gatez = []
 let tcpEnemies = enemyArray
 let treasurez = treasuresData
 
@@ -46,11 +48,11 @@ io.on("connection", socket => {
         const isUser = uzers.some(user => user._id === data._id)
         if(isUser){
             io.emit("deliver-reload", data._id)
-            log("user already in")
+            
         }else{
             uzers.push({...data, socketId: socket.id})
             log(`${data.name} has joined ins ${data.currentPlace}`)
-            io.emit("userJoined", {charData: data, uzers, treasurez, tcpEnemies, worldMessage})
+            io.emit("userJoined", {charData: data, uzers, treasurez, tcpEnemies, worldMessage, gatez})
             uzers.forEach(uzr => log(`${uzr.name}, : ${uzr.currentPlace}`))            
         }
     })
@@ -76,9 +78,10 @@ io.on("connection", socket => {
         const {playerId, itemName, itemModelStyle,  itemType, currentPlace} = data
         const isValidPlayer = uzers.find(uzr => uzr._id === playerId)
         if(!isValidPlayer) return log(`no valid player ${playerId}`)
-        log(data)
+    
         io.emit('equiped-item', data)
     })
+
     //enemy related
     socket.on('enemyChangeTarget', data => {
         tcpEnemies.forEach(enem => {
@@ -90,7 +93,7 @@ io.on("connection", socket => {
     })
     socket.on("respawnEnemy", data => {
         const {maxHp, name, respawnDetails} = data
-        console.log(`respawning enemy `, data)
+       
         setTimeout(() => {
             tcpEnemies.push({...data,
                 _id: randNumString(),
@@ -105,7 +108,7 @@ io.on("connection", socket => {
     })
     socket.on("removeEnemy", enemyId => {
         tcpEnemies = tcpEnemies.filter(enemy => enemy._id !== enemyId)
-        log(tcpEnemies)
+ 
         io.emit("enemy-removed", enemyId)
     })
     socket.on("enemyWillAttack", data => {
@@ -211,10 +214,57 @@ io.on("connection", socket => {
         }        
         io.emit('player-revived', {_id: player._id})
     })
+    // KEYS INVOLVED
+    socket.on('add-gate', data => {
+        const {_id,pos,dirTarg, enemyClass, currentPlace, placeDetail} = data
+        const existingPlace = gatez.find(place => place._id === _id)
+        if(existingPlace) return log('place already exist')
+        gatez.push(data)
+        io.emit('respawnGate', gatez)
+        // enemy inside the gate
+        const enemyToSpawn = enemyByKeyClass.find(enem => enem.name === placeDetail.creepsInfo.name)
+        if(enemyToSpawn) console.log("there is a monster to spawn")
+        // couple of enemies max maybe 15
+        const areaMaxSize = placeDetail.ground.widthHeight.width*.8
+        for(var i = 0;i <= 15;i++){            
+            const pos =  {
+                x: -areaMaxSize + Math.random()*areaMaxSize*2,
+                z: -areaMaxSize + Math.random()*areaMaxSize*2,
+            }
+            tcpEnemies.push({...enemyToSpawn, _id: `${randNumString()}`,
+            x: pos.x,
+            z:pos.z,
+            origPos: pos,
+            currentPlace: placeDetail.placeName })
+        }
+        if(!placeDetail.bossInfo) return
+        const bossToSpawn = enemyByKeyClass.find(enem => enem.name === placeDetail.bossInfo.name)
+        if(!bossToSpawn) return console.log("boss not found")
+        if(bossToSpawn) log('there is a boss to spawn')
+        const bossInf = placeDetail.bossInfo
+        // one boss
+        const bossPos =  {
+            x: bossInf.x,
+            z: bossInf.z
+        }
+        tcpEnemies.push({...bossToSpawn, _id: `${randNumString()}`,
+            x: bossPos.x,
+            z: bossPos.z,
+            origPos: bossPos,
+            currentPlace: placeDetail.placeName 
+        })
+    })
+    socket.on('put-gate-status-completed', data => {
+        const { _id} = data
+        const gatePlace = gatez.find(place => place._id === _id)
+        if(!gatePlace) return log('place already disposed');
+        gatez = gatez.filter(gate => gate._id !== _id)
+        
+    })
     // WORLD MESSAGE
     socket.on('send-message', data =>{
         worldMessage.push(data)
-        console.log(data)
+      
         io.emit("world-message", worldMessage)
     })
     // DISCONNECTIONS

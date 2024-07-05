@@ -1,4 +1,4 @@
-const {randNumString,randNum} = require('../tools/tools.js')
+const {randNumString,getNumUntil} = require('../tools/tools.js')
 module.exports =  [
     {
     pos: {x:-44, y:0,z:30},
@@ -74,6 +74,7 @@ module.exports =  [
         desc: "This Armor is light and useful for first time adventurers",
         rarity: "rare"
     },
+
 // {
 //     pos: {x:1, y:0,z:-4},
 //     rotateY: 0,
