@@ -248,6 +248,7 @@ io.on("connection", socket => {
             z: bossInf.z
         }
         tcpEnemies.push({...bossToSpawn, _id: `${randNumString()}`,
+            isGateBoss: true,
             x: bossPos.x,
             z: bossPos.z,
             origPos: bossPos,

@@ -26,10 +26,10 @@ let enemyInterface = {
     dn: "dirt goblin",
     modelStyle: "goblin",
     stats: {
-        dmg: 1,
+        dmg: 19,
         magDmg: 1,
-        spd: 3,
-        atkSpd: 1,
+        spd: 3.3,
+        atkSpd: 2,
 
         accuracy: 1, //10 // accuracy >= hero.stats.accuracy
         critical: 1.4,
@@ -37,8 +37,8 @@ let enemyInterface = {
     deathSound: "goblinDeathS",
     encounterSound: false,
     lvl: 2,
-    hp: 3000,
-    maxHp: 3000,
+    hp: 900,
+    maxHp: 900,
     expToGain: 100,
     x: 3.6,
     z: -40,
@@ -213,13 +213,13 @@ module.exports = [
         hp: 5700,
         maxHp: 5700,
         stats: {
-            dmg: 12,
+            dmg: 40,
             magDmg: 1,
 
-            accuracy: 3, //10
+            accuracy: 1, //10
             critical: 1.4,
             spd: 3,
-            atkSpd: 1
+            atkSpd: 2.9
         },
         loots: [],
         respawnDetails: {
