@@ -21,6 +21,7 @@ let treasurez = treasuresData
 
 const log = console.log
 
+
 app.get("/", (req, res) => {
     res.send(uzers).status(200)
 })
