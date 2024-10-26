@@ -27,12 +27,14 @@ app.get("/", (req, res) => {
 })
 const io = new Server(server, {
     cors: { 
-        origin:[
-            'https://grimwraith.vercel.app',
-            'https://html-classic.itch.zone',
-            'https://rafael29.itch.io/grim-wraith',
-            'http://localhost:5173'
-        ],
+        origin: "*",
+        // [
+        //     'https://grimwraith.vercel.app',
+        //     'https://html-classic.itch.zone',
+        //     'https://rafael29.itch.io/grim-wraith',
+        //     'http://localhost:5173',
+        //     'http://127.0.0.1:5500/index.html'
+        // ],
         methods: ["GET", "POST"]
     }
 })
@@ -51,7 +53,7 @@ io.on("connection", socket => {
             io.emit("deliver-reload", data._id)
             
         }else{
-            uzers.push({...data, socketId: socket.id})
+            uzers.push({...data, socketId: socket.id, refBxQuat: false})
             log(`${data.name} has joined ins ${data.currentPlace}`)
             io.emit("userJoined", {charData: data, uzers, treasurez, tcpEnemies, worldMessage, gatez})
             uzers.forEach(uzr => log(`${uzr.name}, : ${uzr.currentPlace}`))            
@@ -165,7 +167,7 @@ io.on("connection", socket => {
     })
     // movements    
     socket.on("emitMove", data => {
-        const {playerId, playerPos,targetId, dirTarg} = data
+        const {playerId, playerPos,targetId, dirTarg, refBxQuat} = data
         const player = uzers.find(pl => pl._id === playerId)
 
         if(!player) return log("will move player not found")
