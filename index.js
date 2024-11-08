@@ -96,7 +96,7 @@ io.on("connection", socket => {
     })
     socket.on("respawnEnemy", data => {
         const {maxHp, name, respawnDetails} = data
-       
+        log("killed a monster ", data)
         setTimeout(() => {
             tcpEnemies.push({...data,
                 _id: randNumString(),
@@ -123,6 +123,17 @@ io.on("connection", socket => {
             }
         })
         io.emit("enemy-attacked", data)
+    })
+    socket.on("enemyAttackedRange", data => {
+        tcpEnemies.forEach(enem => {
+            if(data._id === enem._id){
+                // enem._targetId = data.targetId
+                // enem._isMoving = false
+                // enem._attacking = true
+            }
+        })
+        log(data)
+        io.emit("enemy-attacked-range", data)
     })
     socket.on("registerPlayerAsEnemy", data => {
         tcpEnemies.forEach(enem => {
@@ -193,6 +204,15 @@ io.on("connection", socket => {
         if(!player._targetId) player._attacking = false
         io.emit("on-stop", data)
     })
+    socket.on("update-pos", heroDetail => {
+        const { _id, pos } = heroDetail
+        const player = uzers.find(pl => pl._id === _id)
+
+        if(!player) return log("will stop player not found")
+        player.x = pos.x
+        player.z = pos.z
+        io.emit("update-pos", heroDetail)
+    })
     // update hero stats
     socket.on('update-stat', data => {
         const player = uzers.find(user => user._id === data._id)
@@ -221,7 +241,7 @@ io.on("connection", socket => {
     socket.on('add-gate', data => {
         const {_id,pos,dirTarg, enemyClass, currentPlace, placeDetail} = data
         const existingPlace = gatez.find(place => place._id === _id)
-        if(existingPlace) return log('place already exist')
+        if(existingPlace) return log('gate already exist')
         gatez.push(data)
         io.emit('respawnGate', gatez)
         // enemy inside the gate
@@ -258,12 +278,11 @@ io.on("connection", socket => {
             currentPlace: placeDetail.placeName 
         })
     })
-    socket.on('put-gate-status-completed', data => {
-        const { _id} = data
-        const gatePlace = gatez.find(place => place._id === _id)
-        if(!gatePlace) return log('place already disposed');
-        gatez = gatez.filter(gate => gate._id !== _id)
-        
+    socket.on('put-gate-status-completed', gateIdOrPlaceId => {
+        log("removing a gate")
+        log(gatez.length)
+        gatez = gatez.filter(gate => gate._id !== gateIdOrPlaceId); 
+        log(gatez)      
     })
     // WORLD MESSAGE
     socket.on('send-message', data =>{

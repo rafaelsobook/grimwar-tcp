@@ -154,7 +154,7 @@ module.exports = [
         },
         loots: []
     },
-    // goblins
+    // goblins // afterWarScene
     {
         ...enemyInterface,
         _id: `${randNumString()}`,
@@ -195,7 +195,7 @@ module.exports = [
         origPos: { x: -12, z: -34 },
         currentPlace: "afterWarScene",
     },
-    // monolith
+    // monolith// afterWarScene
     {
         ...enemyInterface,
         _id: `${randNumString()}`,
@@ -204,7 +204,11 @@ module.exports = [
         bodyHeight: 3.4,
         origPos: { x: -5, z: 45 },
         currentPlace: "afterWarScene",
-        actionType: "chasing",
+        actionType: "dynamic",
+        rangeAtkDetails: {
+            range: 15,
+            modelName: "sting",            
+        },
         name: "orangelith",
         dn: "Orange Lith",
         modelStyle: "monolith",
@@ -221,10 +225,188 @@ module.exports = [
             spd: 3,
             atkSpd: 2.9
         },
-        loots: [],
+        loots: [simpleCoreLoot],
         respawnDetails: {
             willRespawn: true,
             respawnTime: 30 * 1000,
-        }
+        },
+        effects: [
+            // { effectType: 'spdrain', chance: 10, permanent: false, dn: 'SP Drained', spcost: 20, hpcost: 0, mpcost: 0, hungercost: 4, energycost: 0 },
+            {effectType: 'poisoned', chance: 10, permanent: true, dn:'Venom Extracted', spcost: 20, hpcost:10, mpcost:0, hungercost:4, energycost: 0}
+        ],
+    },
+    // ogresforest
+    {
+        ...enemyInterface,
+        _id: `${randNumString()}`,
+        x: -12,
+        z: -34,
+        origPos: { x: -12, z: -34 },
+        currentPlace: "ogresforest",
+    },
+    {
+        ...enemyInterface,
+        _id: `${randNumString()}`,
+        x: -20,
+        z: -38,
+        origPos: { x: -12, z: -34 },
+        currentPlace: "ogresforest",
+    },
+    // monolith// ogresforest
+    {
+        ...enemyInterface,
+        _id: `${randNumString()}`,
+        x: -5,
+        z: 45,
+        bodyHeight: 3.4,
+        origPos: { x: -5, z: 45 },
+        currentPlace: "ogresforest",
+        actionType: "dynamic",
+        rangeAtkDetails: {
+            range: 15,
+            modelName: "sting",            
+        },
+        name: "orangelith",
+        dn: "Orange Lith",
+        modelStyle: "monolith",
+        deathSound: "beeS",
+        encounterSound: "beeS",
+        hp: 5700,
+        maxHp: 5700,
+        stats: {
+            dmg: 40,
+            magDmg: 1,
+
+            accuracy: 1, //10
+            critical: 1.4,
+            spd: 3,
+            atkSpd: 2.9
+        },
+        loots: [simpleCoreLoot],
+        respawnDetails: {
+            willRespawn: true,
+            respawnTime: 30 * 1000,
+        },
+        effects: [
+            // { effectType: 'spdrain', chance: 10, permanent: false, dn: 'SP Drained', spcost: 20, hpcost: 0, mpcost: 0, hungercost: 4, energycost: 0 },
+            {effectType: 'poisoned', chance: 10, permanent: true, dn:'Venom Extracted', spcost: 20, hpcost:10, mpcost:0, hungercost:4, energycost: 0}
+        ],
+    },
+    {
+        ...enemyInterface,
+        _id: `${randNumString()}`,
+        x: 5,
+        z: 40,
+        bodyHeight: 3.4,
+        origPos: { x: -5, z: 45 },
+        currentPlace: "ogresforest",
+        actionType: "dynamic",
+        rangeAtkDetails: {
+            range: 15,
+            modelName: "sting",            
+        },
+        name: "orangelith",
+        dn: "Orange Lith",
+        modelStyle: "monolith",
+        deathSound: "beeS",
+        encounterSound: "beeS",
+        hp: 5700,
+        maxHp: 5700,
+        stats: {
+            dmg: 40,
+            magDmg: 1,
+
+            accuracy: 1, //10
+            critical: 1.4,
+            spd: 3,
+            atkSpd: 2.9
+        },
+        loots: [simpleCoreLoot],
+        respawnDetails: {
+            willRespawn: true,
+            respawnTime: 30 * 1000,
+        },
+        effects: [
+            // { effectType: 'spdrain', chance: 10, permanent: false, dn: 'SP Drained', spcost: 20, hpcost: 0, mpcost: 0, hungercost: 4, energycost: 0 },
+            {effectType: 'poisoned', chance: 10, permanent: true, dn:'Venom Extracted', spcost: 20, hpcost:10, mpcost:0, hungercost:4, energycost: 0}
+        ],
+    },
+    {
+        ...enemyInterface,
+        _id: `${randNumString()}`,
+        x: -5,
+        z: -35,
+        bodyHeight: 3.4,
+        origPos: { x: -5, z: 45 },
+        currentPlace: "ogresforest",
+        actionType: "dynamic",
+        rangeAtkDetails: {
+            range: 15,
+            modelName: "sting",            
+        },
+        name: "orangelith",
+        dn: "Orange Lith",
+        modelStyle: "monolith",
+        deathSound: "beeS",
+        encounterSound: "beeS",
+        hp: 5700,
+        maxHp: 5700,
+        stats: {
+            dmg: 40,
+            magDmg: 1,
+
+            accuracy: 1, //10
+            critical: 1.4,
+            spd: 3,
+            atkSpd: 2.9
+        },
+        loots: [simpleCoreLoot],
+        respawnDetails: {
+            willRespawn: true,
+            respawnTime: 30 * 1000,
+        },
+        effects: [
+            // { effectType: 'spdrain', chance: 10, permanent: false, dn: 'SP Drained', spcost: 20, hpcost: 0, mpcost: 0, hungercost: 4, energycost: 0 },
+            {effectType: 'poisoned', chance: 10, permanent: true, dn:'Venom Extracted', spcost: 20, hpcost:10, mpcost:0, hungercost:4, energycost: 0}
+        ],
+    },
+    {
+        ...enemyInterface,
+        _id: `${randNumString()}`,
+        x: 6,
+        z: -35,
+        bodyHeight: 3.4,
+        origPos: { x: -5, z: 45 },
+        currentPlace: "ogresforest",
+        actionType: "dynamic",
+        rangeAtkDetails: {
+            range: 15,
+            modelName: "sting",            
+        },
+        name: "orangelith",
+        dn: "Orange Lith",
+        modelStyle: "monolith",
+        deathSound: "beeS",
+        encounterSound: "beeS",
+        hp: 5700,
+        maxHp: 5700,
+        stats: {
+            dmg: 40,
+            magDmg: 1,
+
+            accuracy: 1, //10
+            critical: 1.4,
+            spd: 3,
+            atkSpd: 2.9
+        },
+        loots: [simpleCoreLoot],
+        respawnDetails: {
+            willRespawn: true,
+            respawnTime: 30 * 1000,
+        },
+        effects: [
+            // { effectType: 'spdrain', chance: 10, permanent: false, dn: 'SP Drained', spcost: 20, hpcost: 0, mpcost: 0, hungercost: 4, energycost: 0 },
+            {effectType: 'poisoned', chance: 10, permanent: true, dn:'Venom Extracted', spcost: 20, hpcost:10, mpcost:0, hungercost:4, energycost: 0}
+        ],
     },
 ]

@@ -34,7 +34,7 @@ module.exports = {
             accuracy: 10, //10 // accuracy >= hero.stats.accuracy
             critical: 1.4,
         },        
-        lvl: 10,
+        lvl: 20,
         hp: 7000,
         maxHp: 7000,
         expToGain: 100,     
